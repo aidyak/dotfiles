@@ -2,7 +2,7 @@ tap "olets/tap"
 
 # Shell & Prompt
 brew "mise"
-brew "spaceship"
+brew "starship"
 brew "zsh-syntax-highlighting"
 brew "zsh-autosuggestions"
 brew "olets/tap/zsh-abbr"

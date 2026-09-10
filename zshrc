@@ -8,8 +8,9 @@ export GHQ_ROOT="$HOME/.config/ghq"
 # --- Mise (version manager) ---
 eval "$(mise activate zsh)"
 
-# --- Prompt: Spaceship ---
-source "$(brew --prefix)/opt/spaceship/spaceship.zsh" 2>/dev/null
+# --- Prompt: Starship ---
+export STARSHIP_CONFIG="$HOME/.config/ghq/github.com/aidyak/dotfiles/config/starship/starship.toml"
+eval "$(starship init zsh)"
 
 # --- Catppuccin Macchiato for zsh-syntax-highlighting ---
 source "$HOME/.zsh/catppuccin-zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh" 2>/dev/null
@@ -73,25 +74,3 @@ function ghq-fzf() {
 }
 zle -N ghq-fzf
 bindkey '^g' ghq-fzf
-
-# --- Spaceship config ---
-export SPACESHIP_PROMPT_ORDER=(
-  dir
-  git
-  ruby
-  golang
-  rust
-  node
-  java
-  docker
-  venv
-  exec_time
-  line_sep
-  jobs
-  char
-)
-export SPACESHIP_CHAR_SYMBOL="❯ "
-export SPACESHIP_CHAR_SUFFIX=""
-export SPACESHIP_DIR_TRUNC=3
-export SPACESHIP_GIT_STATUS_STASHED=""
-export SPACESHIP_EXEC_TIME_ELAPSED=3
