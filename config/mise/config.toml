@@ -1,0 +1,11 @@
+[tools]
+ruby = "latest"
+go = "latest"
+node = "latest"
+rust = "latest"
+
+[settings.ruby]
+compile = false
+
+[settings.github]
+credential_command = "gh auth token"

@@ -1,0 +1,38 @@
+#!/bin/bash
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+link() {
+  local src="$1"
+  local dst="$2"
+  if [[ -e "$dst" && ! -L "$dst" ]]; then
+    echo "  Backing up $dst -> ${dst}.bak"
+    mv "$dst" "${dst}.bak"
+  fi
+  ln -sf "$src" "$dst"
+  echo "  $dst -> $src"
+}
+
+echo "==> Linking dotfiles..."
+
+link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
+link "$DOTFILES_DIR/zshenv" "$HOME/.zshenv"
+
+mkdir -p "$HOME/.config/mise"
+link "$DOTFILES_DIR/config/mise/config.toml" "$HOME/.config/mise/config.toml"
+
+mkdir -p "$HOME/Library/Application Support/com.mitchellh.ghostty"
+link "$DOTFILES_DIR/config/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+
+mkdir -p "$HOME/.config/alacritty"
+link "$DOTFILES_DIR/config/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
+
+link "$DOTFILES_DIR/gitconfig" "$HOME/.gitconfig"
+
+link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
+
+echo "==> Installing mise tools..."
+mise install
+
+echo "==> Done."

@@ -1,0 +1,54 @@
+#!/bin/bash
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+echo "===> Start setup..."
+
+# --- Homebrew ---
+if ! command -v brew &>/dev/null; then
+  echo "==> Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+  echo "==> Homebrew already installed"
+fi
+
+# --- Homebrew packages ---
+echo "===> Installing Homebrew packages..."
+brew bundle --file="$DOTFILES_DIR/Brewfile"
+
+# --- Catppuccin syntax highlighting theme ---
+CATPPUCCIN_DIR="$HOME/.zsh/catppuccin-zsh-syntax-highlighting"
+if [[ ! -d "$CATPPUCCIN_DIR" ]]; then
+  echo "==> Installing Catppuccin Macchiato syntax highlighting theme..."
+  mkdir -p "$HOME/.zsh"
+  git clone --depth=1 https://github.com/catppuccin/zsh-syntax-highlighting.git "$CATPPUCCIN_DIR"
+else
+  echo "==> Catppuccin theme already installed"
+fi
+
+# --- Symlink dotfiles ---
+echo "==> Linking dotfiles..."
+"$DOTFILES_DIR/bin/install"
+
+# --- Install mise tools ---
+echo "==> Installing mise-managed tools..."
+mise use --global ruby@latest go@latest node@latest rust@latest
+mise install
+
+# --- GitHub CLI extensions ---
+echo "==> Installing gh extensions..."
+gh extension install dlvhdr/gh-dash 2>/dev/null || true
+gh extension install meiji163/gh-notify 2>/dev/null || true
+gh extension install github/gh-copilot 2>/dev/null || true
+
+echo ""
+echo "==> Setup complete!"
+echo "    Restart your shell or run: exec zsh"
+if ls ~/Library/Fonts/MonoLisaNerd* &>/dev/null 2>&1; then
+  echo "    Terminal font: 'MonoLisa Nerd Font'"
+else
+  echo "    Terminal font: 'FiraCode Nerd Font' (install MonoLisa + Docker to patch)"
+fi
+echo ""

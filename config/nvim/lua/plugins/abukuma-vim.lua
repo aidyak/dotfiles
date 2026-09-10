@@ -1,0 +1,5 @@
+return {
+  {
+    "giftee/abukuma-vim",
+  },
+}
