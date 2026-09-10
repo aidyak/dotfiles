@@ -32,6 +32,12 @@ fi
 echo "==> Linking dotfiles..."
 "$DOTFILES_DIR/bin/install"
 
+if [[ "$(uname)" == "Darwin" ]]; then
+  # --- macOS defaults ---
+  echo "==> Applying macOS defaults..."
+  "$DOTFILES_DIR/bin/macos-defaults.swift"
+fi
+
 # --- Install mise tools ---
 echo "==> Installing mise-managed tools..."
 mise use --global ruby@latest go@latest node@latest rust@latest
