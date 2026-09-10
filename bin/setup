@@ -46,9 +46,5 @@ gh extension install github/gh-copilot 2>/dev/null || true
 echo ""
 echo "==> Setup complete!"
 echo "    Restart your shell or run: exec zsh"
-if ls ~/Library/Fonts/MonoLisaNerd* &>/dev/null 2>&1; then
-  echo "    Terminal font: 'MonoLisa Nerd Font'"
-else
-  echo "    Terminal font: 'FiraCode Nerd Font' (install MonoLisa + Docker to patch)"
-fi
+echo "    Terminal font: 'FiraCode Nerd Font' (install MonoLisa + Docker to patch)"
 echo ""
