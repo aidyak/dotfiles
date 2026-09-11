@@ -1,6 +1,6 @@
 -- lua/plugins/lsp-config.lua
--- LSPサーバーはすべてNix (home.nix) で管理。Masonはインストール済みバイナリの
--- PATHブリッジとしてのみ使い、ensure_installed / automatic_installation は無効。
+-- LSPサーバーはmise/Homebrewなどで入れたバイナリを使う。
+-- Masonのensure_installed / automatic_installation は無効。
 return {
 	{
 		"mason-org/mason.nvim",
@@ -162,7 +162,7 @@ return {
 			})
 
 			-- 有効化（solargraph → ruby_lsp に変更）
-			vim.lsp.enable({ "lua_ls", "pyright", "ruby_lsp", "rubocop", "ts_ls", "rust_analyzer", "nil_ls", "elixirls", "gopls" })
+			vim.lsp.enable({ "lua_ls", "pyright", "ruby_lsp", "rubocop", "ts_ls", "rust_analyzer", "elixirls", "gopls" })
 		end,
 	},
 }
