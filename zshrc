@@ -40,7 +40,7 @@ compinit -C
 
 # --- Abbreviations (zsh-abbr) ---
 abbr add --force nn="nvim"
-abbr add --force ls="eza --icons"
+abbr add --force ls="eza"
 abbr add --force ll="eza -l"
 abbr add --force rst="exec $SHELL -l"
 abbr add --force gst="git status"
