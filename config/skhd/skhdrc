@@ -1,0 +1,35 @@
+# --- Window focus ---
+alt - h : /opt/homebrew/bin/yabai -m window --focus west
+alt - j : /opt/homebrew/bin/yabai -m window --focus south
+alt - k : /opt/homebrew/bin/yabai -m window --focus north
+alt - l : /opt/homebrew/bin/yabai -m window --focus east
+
+# --- Window move (swap) ---
+shift + alt - h : /opt/homebrew/bin/yabai -m window --swap west
+shift + alt - j : /opt/homebrew/bin/yabai -m window --swap south
+shift + alt - k : /opt/homebrew/bin/yabai -m window --swap north
+shift + alt - l : /opt/homebrew/bin/yabai -m window --swap east
+
+# --- Window resize ---
+ctrl + alt - h : /opt/homebrew/bin/yabai -m window --resize left:-20:0
+ctrl + alt - j : /opt/homebrew/bin/yabai -m window --resize bottom:0:20
+ctrl + alt - k : /opt/homebrew/bin/yabai -m window --resize top:0:-20
+ctrl + alt - l : /opt/homebrew/bin/yabai -m window --resize right:20:0
+
+# --- Fullscreen / Float ---
+alt - f : /opt/homebrew/bin/yabai -m window --toggle zoom-fullscreen
+alt - t : /opt/homebrew/bin/yabai -m window --toggle float --grid 4:4:1:1:2:2
+
+# --- Space (Mission Control のスペースに合わせて番号は環境依存) ---
+alt - 1 : /opt/homebrew/bin/yabai -m space --focus 1
+alt - 2 : /opt/homebrew/bin/yabai -m space --focus 2
+alt - 3 : /opt/homebrew/bin/yabai -m space --focus 3
+alt - 4 : /opt/homebrew/bin/yabai -m space --focus 4
+
+shift + alt - 1 : /opt/homebrew/bin/yabai -m window --space 1
+shift + alt - 2 : /opt/homebrew/bin/yabai -m window --space 2
+shift + alt - 3 : /opt/homebrew/bin/yabai -m window --space 3
+shift + alt - 4 : /opt/homebrew/bin/yabai -m window --space 4
+
+# --- yabai 再起動 ---
+ctrl + alt - r : /opt/homebrew/bin/yabai --restart-service
