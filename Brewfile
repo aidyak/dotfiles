@@ -1,4 +1,5 @@
 tap "olets/tap"
+tap "koekeishiya/formulae"
 
 # Shell & Prompt
 brew "mise"
@@ -41,4 +42,9 @@ cask "1password-cli"
 
 # Editor
 cask "visual-studio-code"
+cask "claude-code"
 brew "neovim"
+
+# tile window manager
+brew "koekeishiya/formulae/yabai"
+brew "koekeishiya/formulae/skhd"

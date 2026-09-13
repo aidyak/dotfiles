@@ -33,9 +33,6 @@ return {
         -- Lua
         lua = { "stylua" },
 
-        -- Nix
-        nix = { "nixfmt" },
-
         -- Python
         python = { "ruff_format" },
 
@@ -49,4 +46,3 @@ return {
     },
   },
 }
-

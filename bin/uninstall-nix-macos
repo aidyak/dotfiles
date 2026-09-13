@@ -1,0 +1,80 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ "$(uname)" != "Darwin" ]]; then
+  echo "This script is for macOS only."
+  exit 1
+fi
+
+echo "==> Removing user-level Nix/Home Manager files..."
+rm -rf \
+  "$HOME/.config/home-manager" \
+  "$HOME/.local/state/home-manager" \
+  "$HOME/.local/share/home-manager" \
+  "$HOME/.local/state/nix" \
+  "$HOME/.cache/nix" \
+  "$HOME/.nix-profile" \
+  "$HOME/.nix-defexpr" \
+  "$HOME/.nix-channels" \
+  "$HOME/Library/Fonts/.home-manager-fonts-version"
+
+if [[ -L "$HOME/Library/Application Support/lazygit/config.yml" ]]; then
+  target="$(readlink "$HOME/Library/Application Support/lazygit/config.yml")"
+  if [[ "$target" == /nix/* ]]; then
+    echo "==> Removing lazygit config symlink pointing into /nix..."
+    rm "$HOME/Library/Application Support/lazygit/config.yml"
+  fi
+fi
+
+echo "==> Asking for sudo once..."
+sudo -v
+
+echo "==> Stopping and removing Nix launch daemons..."
+sudo launchctl bootout system/org.nixos.nix-daemon 2>/dev/null || true
+sudo launchctl bootout system/org.nixos.darwin-store 2>/dev/null || true
+sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist 2>/dev/null || true
+sudo launchctl unload /Library/LaunchDaemons/org.nixos.darwin-store.plist 2>/dev/null || true
+sudo rm -f \
+  /Library/LaunchDaemons/org.nixos.nix-daemon.plist \
+  /Library/LaunchDaemons/org.nixos.darwin-store.plist
+
+echo "==> Removing Nix shell hooks..."
+for file in /etc/zshrc /etc/bash.bashrc; do
+  if [[ -f "$file" ]]; then
+    sudo perl -0pi -e 's/\n?# Nix\nif \[ -e '\''\/nix\/var\/nix\/profiles\/default\/etc\/profile\.d\/nix-daemon\.sh'\'' \]; then\n  \. '\''\/nix\/var\/nix\/profiles\/default\/etc\/profile\.d\/nix-daemon\.sh'\''\nfi\n# End Nix\n?/\n/s' "$file"
+  fi
+done
+
+if [[ -f /etc/bashrc ]]; then
+  sudo perl -0pi -e 's/\n?if \[ -z "\$__NIX_DARWIN_SET_ENVIRONMENT_DONE" \]; then\n  \. \/nix\/store\/[^\n]+-set-environment\nfi\n?/\n/s' /etc/bashrc
+fi
+
+echo "==> Removing /nix mount declarations..."
+if [[ -f /etc/fstab ]]; then
+  sudo sed -i '' '\|[[:space:]]/nix[[:space:]]|d' /etc/fstab
+fi
+
+if [[ -f /etc/synthetic.conf ]]; then
+  sudo sed -i '' '/^nix$/d' /etc/synthetic.conf
+fi
+
+echo "==> Removing root-level Nix files and build users..."
+sudo rm -rf \
+  /etc/nix \
+  /var/root/.nix-profile \
+  /var/root/.nix-defexpr \
+  /var/root/.nix-channels
+
+sudo dscl . -delete /Groups/nixbld 2>/dev/null || true
+while IFS= read -r user; do
+  sudo dscl . -delete "/Users/$user" 2>/dev/null || true
+done < <(dscl . -list /Users 2>/dev/null | grep '^_nixbld' || true)
+
+echo "==> Removing Nix store volume..."
+if mount | grep -q ' on /nix '; then
+  sudo diskutil apfs deleteVolume /nix
+else
+  echo "    /nix is not mounted; check diskutil list for an unmounted Nix Store volume if needed."
+fi
+
+echo "==> Done. Restart your shell. Rebooting later will remove the empty /nix mountpoint."

@@ -32,6 +32,12 @@ link "$DOTFILES_DIR/gitconfig" "$HOME/.gitconfig"
 
 link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 
+mkdir -p "$HOME/.config/yabai"
+link "$DOTFILES_DIR/config/yabai/yabairc" "$HOME/.config/yabai/yabairc"
+
+mkdir -p "$HOME/.config/skhd"
+link "$DOTFILES_DIR/config/skhd/skhdrc" "$HOME/.config/skhd/skhdrc"
+
 echo "==> Installing mise tools..."
 mise install
 

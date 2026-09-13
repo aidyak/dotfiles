@@ -14,6 +14,16 @@ else
   echo "==> Homebrew already installed"
 fi
 
+# --- Trust third-party taps ---
+# yabai/skhd は koekeishiya/formulae という非公式 tap から入れるため、
+# 未信頼だと `brew bundle` が "Refusing to load formula from untrusted tap" で失敗する。
+if brew trust --json=v1 2>/dev/null | grep -q "koekeishiya/formulae"; then
+  echo "==> koekeishiya/formulae tap already trusted"
+else
+  echo "==> Trusting koekeishiya/formulae tap..."
+  brew trust --taps koekeishiya/formulae
+fi
+
 # --- Homebrew packages ---
 echo "===> Installing Homebrew packages..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
@@ -36,6 +46,23 @@ if [[ "$(uname)" == "Darwin" ]]; then
   # --- macOS defaults ---
   echo "==> Applying macOS defaults..."
   "$DOTFILES_DIR/bin/macos-defaults.swift"
+
+  # --- yabai / skhd services ---
+  # --start-service は LaunchAgent の plist を生成して launchctl load するので、
+  # 既にインストール済みなら plist の有無で判定してスキップする。
+  if [[ -f "$HOME/Library/LaunchAgents/com.asmvik.yabai.plist" ]]; then
+    echo "==> yabai service already installed"
+  else
+    echo "==> Starting yabai service..."
+    yabai --start-service
+  fi
+
+  if [[ -f "$HOME/Library/LaunchAgents/com.koekeishiya.skhd.plist" ]]; then
+    echo "==> skhd service already installed"
+  else
+    echo "==> Starting skhd service..."
+    skhd --start-service
+  fi
 fi
 
 # --- Install mise tools ---
