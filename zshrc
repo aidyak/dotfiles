@@ -44,6 +44,10 @@ abbr add --force ls="eza"
 abbr add --force ll="eza -l"
 abbr add --force rst="exec $SHELL -l"
 abbr add --force gst="git status"
+abbr add --force gch="git checkout"
+abbr add --force gpl="git pull"
+abbr add --force gps="git push"
+abbr add --force gpsf="git push -f"
 
 # --- Functions ---
 mkcd () { mkdir -p "$1" && cd "$1"; }
