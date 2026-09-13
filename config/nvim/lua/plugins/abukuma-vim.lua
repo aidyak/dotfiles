@@ -1,5 +1,0 @@
-return {
-  {
-    "giftee/abukuma-vim",
-  },
-}
