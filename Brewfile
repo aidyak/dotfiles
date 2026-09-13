@@ -31,8 +31,7 @@ brew "tokei"
 # Fonts & Terminal
 cask "font-fira-code-nerd-font"
 cask "ghostty"
-cask "alacritty"
-
+cask "codex"
 # Productivity
 cask "raycast"
 
