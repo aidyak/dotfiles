@@ -109,3 +109,20 @@ if command -v ghq >/dev/null 2>&1 && command -v fzf >/dev/null 2>&1; then
   zle -N ghq-fzf
   bindkey '^g' ghq-fzf
 fi
+
+function ghq-fzf() {
+  local selected
+  selected=$(ghq list --full-path | fzf \
+    --preview 'ls -la {}' \
+    --preview-window=right:50% \
+    --height=50% \
+    --reverse \
+    --prompt='repo> ')
+  if [ -n "$selected" ]; then
+    cd "$selected"
+  fi
+  zle reset-prompt
+}
+zle -N ghq-fzf
+bindkey '^g' ghq-fzf
+export PATH="/usr/local/bin:$PATH"

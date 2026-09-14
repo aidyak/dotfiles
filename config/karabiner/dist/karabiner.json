@@ -1,0 +1,362 @@
+{
+  "profiles": [
+    {
+      "name": "Default profile",
+      "selected": true,
+      "devices": [
+        {
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 21034,
+            "vendor_id": 1155
+          },
+          "simple_modifications": [
+            {
+              "to": [
+                {
+                  "key_code": "delete_or_backspace"
+                }
+              ],
+              "from": {
+                "key_code": "backslash"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "up_arrow"
+                }
+              ],
+              "from": {
+                "key_code": "delete_forward"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "backslash"
+                }
+              ],
+              "from": {
+                "key_code": "delete_or_backspace"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "right_command"
+                }
+              ],
+              "from": {
+                "key_code": "right_option"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "right_shift"
+                }
+              ],
+              "from": {
+                "key_code": "up_arrow"
+              }
+            }
+          ]
+        },
+        {
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 521,
+            "vendor_id": 1241
+          },
+          "simple_modifications": [
+            {
+              "to": [
+                {
+                  "key_code": "delete_or_backspace"
+                }
+              ],
+              "from": {
+                "key_code": "backslash"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "backslash"
+                }
+              ],
+              "from": {
+                "key_code": "delete_or_backspace"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "left_command"
+                }
+              ],
+              "from": {
+                "key_code": "left_option"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "left_option"
+                }
+              ],
+              "from": {
+                "key_code": "left_command"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "right_command"
+                }
+              ],
+              "from": {
+                "key_code": "right_option"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "right_option"
+                }
+              ],
+              "from": {
+                "key_code": "right_command"
+              }
+            }
+          ]
+        },
+        {
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 591,
+            "vendor_id": 1452
+          },
+          "simple_modifications": [
+            {
+              "to": [
+                {
+                  "key_code": "vk_none"
+                }
+              ],
+              "from": {
+                "key_code": "home"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "vk_none"
+                }
+              ],
+              "from": {
+                "key_code": "end"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "vk_none"
+                }
+              ],
+              "from": {
+                "key_code": "page_down"
+              }
+            },
+            {
+              "to": [
+                {
+                  "key_code": "vk_none"
+                }
+              ],
+              "from": {
+                "key_code": "page_up"
+              }
+            }
+          ]
+        }
+      ],
+      "simple_modifications": [
+        {
+          "to": [
+            {
+              "key_code": "left_control"
+            }
+          ],
+          "from": {
+            "key_code": "caps_lock"
+          }
+        }
+      ],
+      "virtual_hid_keyboard": {
+        "keyboard_type_v2": "ansi"
+      },
+      "complex_modifications": {
+        "rules": [
+          {
+            "description": "Tap command to switch input source",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_command"
+                },
+                "to": [
+                  {
+                    "key_code": "left_command",
+                    "lazy": true
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "japanese_eisuu"
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "key_code": "left_command"
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "input_source_if",
+                    "input_sources": [
+                      {
+                        "language": "ja"
+                      }
+                    ]
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_alone_timeout_milliseconds": 100,
+                  "basic.to_if_held_down_threshold_milliseconds": 100
+                }
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_command"
+                },
+                "to": [
+                  {
+                    "key_code": "left_command",
+                    "lazy": true
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "japanese_kana"
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "key_code": "left_command"
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "input_source_unless",
+                    "input_sources": [
+                      {
+                        "language": "ja"
+                      }
+                    ]
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_alone_timeout_milliseconds": 100,
+                  "basic.to_if_held_down_threshold_milliseconds": 100
+                }
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "right_command"
+                },
+                "to": [
+                  {
+                    "key_code": "right_command",
+                    "lazy": true
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "japanese_eisuu"
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "key_code": "right_command"
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "input_source_if",
+                    "input_sources": [
+                      {
+                        "language": "ja"
+                      }
+                    ]
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_alone_timeout_milliseconds": 100,
+                  "basic.to_if_held_down_threshold_milliseconds": 100
+                }
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "right_command"
+                },
+                "to": [
+                  {
+                    "key_code": "right_command",
+                    "lazy": true
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "japanese_kana"
+                  }
+                ],
+                "to_if_held_down": [
+                  {
+                    "key_code": "right_command"
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "input_source_unless",
+                    "input_sources": [
+                      {
+                        "language": "ja"
+                      }
+                    ]
+                  }
+                ],
+                "parameters": {
+                  "basic.to_if_alone_timeout_milliseconds": 100,
+                  "basic.to_if_held_down_threshold_milliseconds": 100
+                }
+              }
+            ]
+          }
+        ],
+        "parameters": {
+          "basic.to_if_alone_timeout_milliseconds": 1000,
+          "basic.to_if_held_down_threshold_milliseconds": 500,
+          "basic.to_delayed_action_delay_milliseconds": 500,
+          "basic.simultaneous_threshold_milliseconds": 50,
+          "mouse_motion_to_scroll.speed": 100
+        }
+      }
+    }
+  ]
+}

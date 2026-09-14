@@ -36,6 +36,7 @@ cask "codex"
 cask "raycast"
 
 # Infrastructure
+brew "awscli"
 cask "docker-desktop"
 cask "1password-cli"
 
