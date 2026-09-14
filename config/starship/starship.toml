@@ -1,6 +1,9 @@
 # Spaceship からの移行設定
 # 元の SPACESHIP_PROMPT_ORDER (dir, git, ruby, golang, rust, node, java, docker, venv, exec_time, jobs, char) を再現
 
+# Node.js の起動が既定の 500ms を超える場合があるため、プロンプト用コマンドに 1 秒を許容する。
+command_timeout = 1_000
+
 format = """
 $directory\
 $git_branch\
