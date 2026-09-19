@@ -22,12 +22,17 @@ packages=(
   ripgrep
   zsh-autosuggestions
   zsh-syntax-highlighting
+  noto-fonts
+  noto-fonts-cjk
+  noto-fonts-emoji
+  ibus
+  ibus-anthy
 )
 
 echo "Installing Arch packages..."
 sudo pacman -Syu --needed --noconfirm "${packages[@]}"
 
-mkdir -p "$HOME/.config"
+mkdir -p "$HOME/.config" "$HOME/.config/fontconfig"
 
 link() {
   local source="$1"
@@ -54,6 +59,13 @@ link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 link "$DOTFILES_DIR/config/mise" "$HOME/.config/mise"
 link "$DOTFILES_DIR/config/starship" "$HOME/.config/starship"
 link "$DOTFILES_DIR/config/alacritty" "$HOME/.config/alacritty"
+link "$DOTFILES_DIR/config/fontconfig/fonts.conf" "$HOME/.config/fontconfig/fonts.conf"
+
+fc-cache -f
+
+if command -v gsettings >/dev/null 2>&1; then
+  gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'jp'), ('ibus', 'anthy')]"
+fi
 
 if [[ "$SHELL" != "/usr/bin/zsh" ]]; then
   echo
