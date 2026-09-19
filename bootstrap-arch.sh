@@ -17,6 +17,7 @@ packages=(
   starship
   mise
   fzf
+  ghq
   fd
   eza
   ripgrep

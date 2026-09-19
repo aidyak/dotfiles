@@ -42,3 +42,5 @@ exec zsh
 ```
 
 The shared `zshrc` detects macOS and Linux. Homebrew-specific setup is only loaded on macOS, while Arch uses the packaged zsh plugins under `/usr/share/zsh/plugins`.
+
+The Arch bootstrap also installs `ghq`, `fzf`, and `fd` for the shared shell shortcuts. In zsh, press Ctrl+G to select a repository with fzf and move into it; Ctrl+T searches files and Alt+C searches directories.
