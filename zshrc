@@ -2,16 +2,10 @@
 export DOTFILES="$HOME/.config/ghq/github.com/aidyak/dotfiles"
 export PATH="$DOTFILES/bin:$PATH"
 
-# --- Platform ---
-case "$(uname -s)" in
-  Darwin)
-    if [[ -x /opt/homebrew/bin/brew ]]; then
-      eval "$(/opt/homebrew/bin/brew shellenv)"
-    fi
-    ;;
-  Linux)
-    ;;
-esac
+# --- Homebrew ---
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # --- ghq ---
 export GHQ_ROOT="$HOME/.config/ghq"
@@ -31,18 +25,15 @@ fi
 source "$HOME/.zsh/catppuccin-zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh" 2>/dev/null
 
 # --- Plugins ---
-if [[ "$(uname -s)" == "Darwin" ]] && command -v brew >/dev/null 2>&1; then
+if command -v brew >/dev/null 2>&1; then
   source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null
   source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" 2>/dev/null
   source "$(brew --prefix)/share/zsh-abbr/zsh-abbr.zsh" 2>/dev/null
-elif [[ "$(uname -s)" == "Linux" ]]; then
-  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 fi
 
 # --- Terminal ---
 export TERM="xterm-256color"
-if [[ "$(uname -s)" == "Darwin" ]] && command -v code >/dev/null 2>&1; then
+if command -v code >/dev/null 2>&1; then
   export EDITOR="code --wait"
 else
   export EDITOR="nvim"
