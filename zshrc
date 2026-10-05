@@ -6,6 +6,10 @@ export PATH="$DOTFILES/bin:$PATH"
 if [[ -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+# --- Path ---
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="$HOME/.config/ghq/github.com/aidyak/dotfiles/bin:$PATH"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # --- ghq ---
 export GHQ_ROOT="$HOME/.config/ghq"
@@ -126,3 +130,5 @@ function ghq-fzf() {
 zle -N ghq-fzf
 bindkey '^g' ghq-fzf
 export PATH="/usr/local/bin:$PATH"
+
+. "$HOME/.local/bin/env"

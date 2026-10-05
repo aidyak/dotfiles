@@ -67,7 +67,6 @@ fi
 
 # --- Install mise tools ---
 echo "==> Installing mise-managed tools..."
-mise use --global ruby@latest go@latest node@latest rust@latest
 mise install
 
 # --- GitHub CLI extensions ---
