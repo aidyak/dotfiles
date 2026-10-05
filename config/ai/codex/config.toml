@@ -1,0 +1,6 @@
+# Only these top-level keys are managed; other settings remain local.
+model = "gpt-6.1-sol"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+network_access = true
+notify = ["bash", "@HOME@/.codex/notify_macos.sh"]

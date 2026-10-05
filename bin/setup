@@ -2,6 +2,7 @@
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$DOTFILES_DIR/zshenv"
 
 echo "===> Start setup..."
 
@@ -28,6 +29,9 @@ fi
 echo "===> Installing Homebrew packages..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
+# --- ghq directories & repositories ---
+"$DOTFILES_DIR/bin/setup-ghq"
+
 # --- Catppuccin syntax highlighting theme ---
 CATPPUCCIN_DIR="$HOME/.zsh/catppuccin-zsh-syntax-highlighting"
 if [[ ! -d "$CATPPUCCIN_DIR" ]]; then
@@ -39,6 +43,11 @@ else
 fi
 
 # --- Symlink dotfiles ---
+# Node.js is needed to generate the Karabiner configuration during installation.
+echo "==> Installing mise-managed tools..."
+mise install
+eval "$(mise env -s bash)"
+
 echo "==> Linking dotfiles..."
 "$DOTFILES_DIR/bin/install"
 
@@ -64,10 +73,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
     skhd --start-service
   fi
 fi
-
-# --- Install mise tools ---
-echo "==> Installing mise-managed tools..."
-mise install
 
 # --- GitHub CLI extensions ---
 echo "==> Installing gh extensions..."

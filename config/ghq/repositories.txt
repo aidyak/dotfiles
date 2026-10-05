@@ -1,0 +1,5 @@
+# Repositories to clone during bin/setup, one host/owner/repo per line.
+# Existing repositories are kept without pulling changes.
+# Private repositories require Git/SSH authentication before setup.
+# github.com/aidyak/example
+# github.com/giftee/example

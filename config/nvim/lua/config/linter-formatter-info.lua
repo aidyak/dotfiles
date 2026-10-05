@@ -80,40 +80,25 @@ end
 -- Tree-sitter 情報を取得
 function M.get_treesitter_info(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
+  if bufnr == 0 then
+    bufnr = vim.api.nvim_get_current_buf()
+  end
   local filetype = vim.bo[bufnr].filetype
-  
-  -- Tree-sitterが利用可能かチェック
-  local ts_ok, ts = pcall(require, "nvim-treesitter.parsers")
-  if not ts_ok then
+
+  if not vim.treesitter then
     return { available = false }
   end
-  
-  -- 新しいAPIに対応: has_parser -> get_parser_configs
-  local parser_available = false
-  local configs_ok, configs = pcall(ts.get_parser_configs)
-  if configs_ok and configs then
-    parser_available = configs[filetype] ~= nil
-  else
-    -- フォールバック: vim.treesitter.get_parser を試行
-    local parser_ok = pcall(vim.treesitter.get_parser, bufnr, filetype)
-    parser_available = parser_ok
-  end
-  
-  local parser_info = {
+
+  -- filetype とパーサー名の対応は Neovim に任せ、実際の取得結果を確認する。
+  local parser_ok, parser = pcall(vim.treesitter.get_parser, bufnr)
+  local parser_available = parser_ok and parser ~= nil
+
+  return {
     available = true,
     filetype = filetype,
-    parser_available = parser_available
+    parser_available = parser_available,
+    highlighting = vim.treesitter.highlighter.active[bufnr] ~= nil,
   }
-  
-  -- パーサーが利用可能な場合、追加情報を取得
-  if parser_available then
-    local highlighter_ok, highlighter = pcall(require, "nvim-treesitter.highlight")
-    if highlighter_ok then
-      parser_info.highlighting = highlighter.is_enabled(bufnr)
-    end
-  end
-  
-  return parser_info
 end
 
 -- ファイル基本情報を取得

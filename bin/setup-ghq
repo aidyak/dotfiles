@@ -1,0 +1,27 @@
+#!/bin/bash
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+source "$DOTFILES_DIR/zshenv"
+
+# A bootstrap clone may live outside ghq. Keep it in place and expose it there.
+DOTFILES_GHQ_PATH="$GHQ_ROOT/github.com/aidyak/dotfiles"
+mkdir -p "$(dirname "$DOTFILES_GHQ_PATH")"
+if [[ -d "$DOTFILES_GHQ_PATH" ]] && [[ "$(cd "$DOTFILES_GHQ_PATH" && pwd -P)" == "$DOTFILES_DIR" ]]; then
+  echo "==> dotfiles already available under ghq"
+elif [[ -e "$DOTFILES_GHQ_PATH" || -L "$DOTFILES_GHQ_PATH" ]]; then
+  echo "Another path already exists at $DOTFILES_GHQ_PATH; leaving it unchanged." >&2
+  exit 1
+else
+  ln -s "$DOTFILES_DIR" "$DOTFILES_GHQ_PATH"
+  echo "==> $DOTFILES_GHQ_PATH -> $DOTFILES_DIR"
+fi
+
+echo "==> Preparing repositories under $GHQ_ROOT..."
+while IFS= read -r repository || [[ -n "$repository" ]]; do
+  repository="${repository%%#*}"
+  repository="${repository#"${repository%%[![:space:]]*}"}"
+  repository="${repository%"${repository##*[![:space:]]}"}"
+  [[ -n "$repository" ]] || continue
+  ghq get "$repository"
+done < "$DOTFILES_DIR/config/ghq/repositories.txt"

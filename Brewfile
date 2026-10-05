@@ -2,6 +2,7 @@ tap "olets/tap"
 
 # Shell & Prompt
 brew "mise"
+brew "pnpm"
 brew "starship"
 brew "zsh-syntax-highlighting"
 brew "zsh-autosuggestions"
@@ -22,6 +23,7 @@ brew "bat"
 brew "eza"
 
 # Data & Debugging
+brew "python"
 brew "jq"
 brew "yq"
 brew "hyperfine"
@@ -33,6 +35,7 @@ cask "ghostty"
 cask "codex"
 # Productivity
 cask "raycast"
+cask "karabiner-elements"
 
 # Infrastructure
 brew "awscli"
@@ -43,4 +46,4 @@ cask "1password-cli"
 cask "visual-studio-code"
 cask "claude-code"
 brew "neovim"
-
+brew "tree-sitter-cli"

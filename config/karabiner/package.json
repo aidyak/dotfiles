@@ -1,0 +1,20 @@
+{
+  "name": "dotfiles-karabiner",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node index.ts",
+    "apply": "node index.ts --apply",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "karabiner.ts": "1.38.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.0"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

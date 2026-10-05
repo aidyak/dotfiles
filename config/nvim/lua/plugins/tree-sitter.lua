@@ -1,8 +1,9 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
 		build = ":TSUpdate",
-		event = { "BufReadPost", "BufNewFile" },
+		lazy = false,
 		priority = 1000,
 		config = function()
 			vim.list = vim.list or {}
@@ -46,19 +47,28 @@ return {
 			local install_task = require("nvim-treesitter").install(languages)
 
 			local function start_treesitter(bufnr)
-				bufnr = bufnr or 0
+				bufnr = bufnr or vim.api.nvim_get_current_buf()
+				local parser_ok, parser = pcall(vim.treesitter.get_parser, bufnr)
+				if not parser_ok or not parser then
+					return
+				end
+
 				pcall(vim.treesitter.start, bufnr)
-				vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				local query_ok, query = pcall(vim.treesitter.query.get, parser:lang(), "indents")
+				if query_ok and query then
+					vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end
 			end
 
 			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
 				callback = function(args)
 					start_treesitter(args.buf)
 				end,
 			})
 
 			if vim.bo.filetype ~= "" then
-				start_treesitter(0)
+				start_treesitter()
 			end
 
 			-- 初回導入した言語はパーサーのビルドが非同期で走るため、

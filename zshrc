@@ -8,11 +8,8 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
 fi
 # --- Path ---
 eval "$(/opt/homebrew/bin/brew shellenv)"
-export PATH="$HOME/.config/ghq/github.com/aidyak/dotfiles/bin:$PATH"
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# --- ghq ---
-export GHQ_ROOT="$HOME/.config/ghq"
+DOTFILES_DIR="${${(%):-%x}:A:h}"
+export PATH="$DOTFILES_DIR/bin:$PATH"
 
 # --- Mise (version manager) ---
 if command -v mise >/dev/null 2>&1; then
@@ -24,6 +21,8 @@ export STARSHIP_CONFIG="$DOTFILES/config/starship/starship.toml"
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
+export STARSHIP_CONFIG="$DOTFILES_DIR/config/starship/starship.toml"
+eval "$(starship init zsh)"
 
 # --- Catppuccin Macchiato for zsh-syntax-highlighting ---
 source "$HOME/.zsh/catppuccin-zsh-syntax-highlighting/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh" 2>/dev/null
