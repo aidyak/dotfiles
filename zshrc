@@ -10,6 +10,7 @@ fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 DOTFILES_DIR="${${(%):-%x}:A:h}"
 export PATH="$DOTFILES_DIR/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
 
 # --- Mise (version manager) ---
 if command -v mise >/dev/null 2>&1; then
